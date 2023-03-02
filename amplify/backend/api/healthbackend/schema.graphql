@@ -1,0 +1,964 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+enum PaymentMethod {
+  COD
+  ONLINE
+}
+
+enum CouponPaymentMethod {
+  ALL
+  COD
+  ONLINE
+}
+
+enum OrderStatus {
+  ONHOLD
+  PROCESSING
+  CONFIRMED
+  SHIPPED
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+  REFUNDED
+  PENDING
+}
+
+enum StatusDelivery {
+  DRAFT
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum ProductStatus {
+  ENABLED
+  DISABLED
+}
+
+enum CouponType {
+  PERCENTAGE
+  FIXED
+  BOGO
+}
+
+enum PaymentType {
+  COD
+  PREPAID
+}
+
+enum Currency {
+  INR
+}
+
+enum Country {
+  IN
+}
+
+enum IndianStates {
+  AN
+  AP
+  AR
+  AS
+  BR
+  CH
+  CG
+  DN
+  DD
+  DL
+  GA
+  GJ
+  HR
+  HP
+  JK
+  JH
+  KA
+  KL
+  LA
+  LD
+  MP
+  MH
+  MN
+  ML
+  MZ
+  NL
+  OR
+  PY
+  PB
+  RJ
+  SK
+  TN
+  TS
+  TR
+  UP
+  UK
+  WB
+}
+
+type User
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read] }
+      {
+        allow: owner
+        ownerField: "owner"
+        identityClaim: "sub"
+        operations: [read, create, update]
+      }
+    ]
+  ) {
+  id: ID!
+  storeId: ID
+    @index(
+      name: "bystoreIdUser"
+      queryField: "bystoreIdUser"
+      sortKeyFields: ["createdAt"]
+    )
+  store: Store @hasOne(fields: ["storeId"])
+  owner: String!
+  firstName: String
+  lastName: String
+  email: AWSEmail
+  phone: AWSPhone
+  gender: String
+  dob: AWSDate
+  country: String
+  state: String
+  city: String
+  pinCode: String
+  landmark: String
+  address: String
+  location: String
+  area: String
+  isActive: Boolean
+  authProvider: String
+  totalOrders: Int
+  totalSpent: Float
+  walletBalance: Float
+  walletSpent: Float
+  totalStoreCredit: Float
+  isAdmin: Boolean
+  isCognitoConfirmed: Boolean
+  profilePhotoUrl: String
+  wishlists: [Wishlist]
+    @hasMany(indexName: "byuserIdcreatedAtWishlist", fields: ["id"])
+  shopingcarts: [ShoppingCart]
+    @hasMany(indexName: "byuserIdcreatedAtShoppingCart", fields: ["id"])
+  reviews: [Review]
+    @hasMany(indexName: "byuserIdcreatedAtReview", fields: ["id"])
+  orders: [Order] @hasMany(indexName: "byuserIdcreatedAtOrder", fields: ["id"])
+  payments: [Payment]
+    @hasMany(indexName: "byuserIdcreatedAtPayment", fields: ["id"])
+  userAddress: [UserAddress]
+    @hasMany(indexName: "byuserIDUserAddress", fields: ["id"])
+  couponCodes: [CouponCode]
+    @hasMany(indexName: "byuserIdCouponCode", fields: ["id"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type UserAddress
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [{ allow: private, operations: [read, create, update, delete] }]
+  ) {
+  id: ID!
+  userID: ID!
+    @index(
+      name: "byuserIDUserAddress"
+      queryField: "byuserIDUserAddress"
+      sortKeyFields: ["createdAt"]
+    )
+  name: String!
+  phone: AWSPhone!
+  email: AWSEmail!
+  country: Country!
+  state: IndianStates!
+  city: String!
+  pinCode: String!
+  landmark: String
+  address: String!
+  location: String
+  area: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Address {
+  name: String!
+  phone: AWSPhone!
+  email: AWSEmail!
+  country: Country!
+  state: IndianStates!
+  city: String!
+  pinCode: String!
+  landmark: String
+  address: String!
+  location: String
+  area: String
+}
+
+type ProductCategory
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+    @index(
+      name: "bynameProductCategory"
+      queryField: "bynameProductCategory"
+      sortKeyFields: ["createdAt"]
+    )
+  storeId: ID!
+    @index(
+      name: "bystoreIdProductCategory"
+      queryField: "bystoreIdProductCategory"
+      sortKeyFields: ["createdAt"]
+    )
+  store: Store @hasOne(fields: ["storeId"])
+  description: String
+  slug: String!
+    @index(
+      name: "byslugProductCategory"
+      queryField: "byslugProductCategory"
+      sortKeyFields: ["createdAt"]
+    )
+  isFeatured: Boolean
+  totalProducts: Int
+  priority: Int
+  imageUrl: String
+  bannerUrl: String
+  products: [Product] @hasMany(indexName: "bycategoryIdProduct", fields: ["id"])
+  subCategory: [ProductSubCategory]
+    @hasMany(indexName: "bycategoryIDProductSubCategory", fields: ["id"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type ProductSubCategory
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  storeId: ID!
+    @index(
+      name: "bystoreIdProductSubCategory"
+      queryField: "bystoreIdProductSubCategory"
+      sortKeyFields: ["createdAt"]
+    )
+  store: Store @hasOne(fields: ["storeId"])
+  name: String!
+    @index(
+      name: "bynameProductSubCategory"
+      queryField: "bynameProductSubCategory"
+      sortKeyFields: ["createdAt"]
+    )
+  description: String
+  categoryID: ID
+    @index(
+      name: "bycategoryIDProductSubCategory"
+      queryField: "bycategoryIDProductSubCategory"
+      sortKeyFields: ["createdAt"]
+    )
+  category: ProductCategory @hasOne(fields: ["categoryID"])
+  slug: String!
+    @index(
+      name: "byslugProductSubCategory"
+      queryField: "byslugProductSubCategory"
+      sortKeyFields: ["createdAt"]
+    )
+  isFeatured: Boolean
+  totalProducts: Int
+  priority: Int
+  imageUrl: String
+  bannerUrl: String
+  products: [Product] @hasMany(indexName: "bycategoryIdProduct", fields: ["id"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Store
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String
+  isActive: Boolean
+  webUrl: String
+  appId: String
+  host: String
+  priority: Int
+  imageUrl: String
+  products: [Product] @hasMany(indexName: "bystoreIdProduct", fields: ["id"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type warehouse
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  storeId: ID!
+    @index(
+      name: "bystoreIdwarehouse"
+      queryField: "bystoreIdwarehouse"
+      sortKeyFields: ["createdAt"]
+    )
+  store: Store @hasOne(fields: ["storeId"])
+  facilityCode: String
+  name: String!
+  description: String
+  address: Boolean
+  totalProducts: Int
+  totalQuantity: Int
+  priority: Int
+  imageUrl: String
+  productInventory: [ProductInventory]
+    @hasMany(indexName: "bywarehouseIdProductInventory", fields: ["id"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type ProductInventory
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  warehouseId: ID!
+    @index(
+      name: "bywarehouseIdProductInventory"
+      queryField: "bywarehouseIdProductInventory"
+      sortKeyFields: ["createdAt"]
+    )
+  productId: ID!
+    @index(
+      name: "byproductIdProductInventory"
+      queryField: "byproductIdProductInventory"
+      sortKeyFields: ["createdAt"]
+    )
+  product: Product @hasOne(fields: ["productId"])
+  currentQuantity: Int
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+#subcategory
+#warehouse
+#store
+
+type Product
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID
+  title: String!
+    @index(
+      name: "bytitleProduct"
+      queryField: "bytitleProduct"
+      sortKeyFields: ["createdAt"]
+    )
+  brand: String
+  vendor: String
+  categoryId: ID!
+    @index(
+      name: "bycategoryIdProduct"
+      queryField: "bycategoryIdProduct"
+      sortKeyFields: ["createdAt"]
+    )
+  category: ProductCategory @hasOne(fields: ["categoryId"])
+  subCategoryId: ID
+    @index(
+      name: "bysubCategoryIdProduct"
+      queryField: "bysubCategoryIdProduct"
+      sortKeyFields: ["createdAt"]
+    )
+  subCategory: ProductSubCategory @hasOne(fields: ["subCategoryId"])
+  storeId: ID!
+    @index(
+      name: "bystoreIdProduct"
+      queryField: "bystoreIdProduct"
+      sortKeyFields: ["createdAt"]
+    )
+  store: Store @hasOne(fields: ["storeId"])
+  isFeatured: Boolean @default(value: "false")
+  productType: String
+  createdAt: AWSDateTime
+  slug: String!
+    @index(
+      name: "byslugProduct"
+      queryField: "byslugProduct"
+      sortKeyFields: ["createdAt"]
+    )
+  productDescription: String
+  longDescription: String
+  updatedAt: AWSDateTime
+  isPublished: Boolean @default(value: "true")
+  publishedAt: AWSDateTime
+  price: Float!
+  sku: String
+  size: String
+  color: String
+  status: ProductStatus
+  position: Int @default(value: "1")
+  currency: Currency @default(value: "INR")
+  costPrice: Float
+  listingPrice: Float
+  taxable: Boolean
+  barcode: String
+  tags: String
+  benefits: [String]
+  weight: Float
+  weightUnit: String
+  inventory: Int
+  blockedInventory: Int
+  rating: Float @default(value: "0")
+  totalOrders: Int @default(value: "0")
+  additionalInfo: String
+  thumbImages: String
+  isTaxEnabled: Boolean @default(value: "false")
+  isInventoryEnabled: Boolean @default(value: "false")
+  hasVarient: Boolean @default(value: "false")
+  variants: [Variant]
+    @hasMany(indexName: "byProductIdCreatedAtVariant", fields: ["id"])
+  images: [ProductImage]
+    @hasMany(indexName: "byProductIdProductImage", fields: ["id"])
+  reviews: [Review]
+    @hasMany(indexName: "byProductidcreatedAtReview", fields: ["id"])
+  linkedProducts: [LinkedProduct]
+    @hasMany(indexName: "byProductIdLinkedProduct", fields: ["id"])
+  #productInventory: [ProductInventory] @hasMany(indexName: "byproductIdProductInventory", fields: ["id"])
+}
+
+type LinkedProduct
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  productId: ID!
+    @index(
+      name: "byProductIdLinkedProduct"
+      queryField: "byProductIdLinkedProduct"
+      sortKeyFields: ["createdAt"]
+    )
+  linkedProductId: ID!
+  linkedProduct: Product @hasOne(fields: ["linkedProductId"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Variant
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  productId: ID!
+    @index(
+      name: "byProductIdCreatedAtVariant"
+      queryField: "byProductIdCreatedAtVariant"
+      sortKeyFields: ["createdAt"]
+    )
+  title: String!
+  description: String
+  price: Float!
+  sku: String
+  size: String
+  color: String
+  status: ProductStatus
+  position: Int @default(value: "1")
+  currency: Currency @default(value: "INR")
+  costPrice: Float
+  listingPrice: Float
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  taxable: Boolean
+  barcode: String
+  imageUrl: String
+  weight: Float
+  weightUnit: String
+  inventory: Int
+  blockedInventory: Int
+}
+
+type ProductImage
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  productId: ID!
+    @index(
+      name: "byProductIdProductImage"
+      queryField: "byProductIdProductImage"
+      sortKeyFields: ["createdAt"]
+    )
+  position: Int @default(value: "1")
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  alt: String
+  width: Int
+  height: Int
+  imageKey: String!
+  isThumb: Boolean
+}
+
+type Order
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read, create, update] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  code: String
+  storeId: ID
+    @index(
+      name: "bystoreIdOrder"
+      queryField: "bystoreIdOrder"
+      sortKeyFields: ["createdAt"]
+    )
+  store: Store @hasOne(fields: ["storeId"])
+  userId: ID
+    @index(
+      name: "byuserIdcreatedAtOrder"
+      queryField: "byuserIdcreatedAtOrder"
+      sortKeyFields: ["createdAt"]
+    )
+  user: User @hasOne(fields: ["userId"])
+  channelName: String
+  shippingAddress: Address!
+  billingAddress: Address!
+  totalStoreCredit: Float
+  couponCodeId: ID
+  coupon: CouponCode @hasOne(fields: ["couponCodeId"])
+  totalAmount: Float
+  totalCashOnDeliveryCharges: Float
+  totalDiscount: Float
+  totalGiftCharges: Float
+  totalPrepaidAmount: Float
+  totalShippingCharges: Float
+  taxExempted: Boolean
+  cFormProvided: Boolean
+  thirdPartyShipping: Boolean @default(value: "false")
+  currency: Currency @default(value: "INR")
+  paymentType: PaymentType!
+  sla: AWSDateTime!
+  priority: Int
+  orderDate: AWSDateTime!
+  status: OrderStatus!
+  products: [OrderProduct]
+    @hasMany(indexName: "byorderIdcreatedAtOrderProduct", fields: ["id"])
+  payments: [Payment]
+    @hasMany(indexName: "byorderIdcreatedAtPayment", fields: ["id"])
+  comments: [OrderComment]
+    @hasMany(indexName: "byOrderIdOrderComment", fields: ["id"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type OrderComment
+  @model(subscriptions: null)
+  @auth(rules: [{ allow: private, operations: [read, create, delete] }]) {
+  id: ID!
+  orderId: ID!
+    @index(
+      name: "byOrderIdOrderComment"
+      queryField: "byOrderIdOrderComment"
+      sortKeyFields: ["createdAt"]
+    )
+  userId: ID!
+  user: User @hasOne(fields: ["userId"])
+  comment: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type OrderProduct
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read, create, update] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  orderId: ID!
+    @index(
+      name: "byorderIdcreatedAtOrderProduct"
+      queryField: "byorderIdcreatedAtOrderProduct"
+      sortKeyFields: ["createdAt"]
+    )
+  productId: ID!
+  product: Product @hasOne(fields: ["productId"])
+  variantId: ID
+  variant: Variant @hasOne(fields: ["variantId"])
+  sku: String!
+  returnReason: String
+  returnDate: String
+  returnAWB: String
+  returnShippingProvider: String
+  title: String!
+  shippingMethodCode: String
+  cashOnDeliveryCharges: Float @default(value: "0")
+  sellingPrice: Float @default(value: "0")
+  shippingCharges: Float @default(value: "0")
+  discount: Float @default(value: "0")
+  totalPrice: Float!
+  currency: Currency @default(value: "INR")
+  onHold: Boolean
+  facilityCode: String
+  gstin: String
+  additionalInfo: String
+  centralGstPercentage: Float
+  compensationCessPercentage: Float
+  integratedGstPercentage: Float
+  stateGstPercentage: Float
+  taxRate: Float
+  unionTerritoryGstPercentage: Float
+  deliveryPartner: String
+  dispatchDate: AWSDateTime
+  invoiceDate: AWSDateTime
+  invoiceNumber: String
+  tentativeDeliveryDate: AWSDateTime
+  trackingId: String
+  quantity: Int!
+  price: Float!
+  status: OrderStatus
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Payment
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: public, operations: [read, create, update] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  storeId: ID
+    @index(
+      name: "bystoreIdPayment"
+      queryField: "bystoreIdPayment"
+      sortKeyFields: ["createdAt"]
+    )
+  store: Store @hasOne(fields: ["storeId"])
+  userId: ID
+    @index(
+      name: "byuserIdcreatedAtPayment"
+      queryField: "byuserIdcreatedAtPayment"
+      sortKeyFields: ["createdAt"]
+    )
+  user: User @hasOne(fields: ["userId"])
+  orderId: ID!
+    @index(
+      name: "byorderIdcreatedAtPayment"
+      queryField: "byorderIdcreatedAtPayment"
+      sortKeyFields: ["createdAt"]
+    )
+  method: PaymentMethod!
+  amount: Float!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Reviewer {
+  name: String!
+  email: AWSEmail!
+}
+
+type Review
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read, create, update] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  userId: ID
+    @index(
+      name: "byuserIdcreatedAtReview"
+      queryField: "byUseridcreatedAtReview"
+      sortKeyFields: ["createdAt"]
+    )
+  user: User @hasOne(fields: ["userId"])
+  reviewer: Reviewer!
+  flagged: Boolean
+  productId: ID!
+    @index(
+      name: "byProductidcreatedAtReview"
+      queryField: "byProductidcreatedAtReview"
+      sortKeyFields: ["createdAt"]
+    )
+  product: Product @hasOne(fields: ["productId"])
+  rating: Int!
+  comment: String!
+  title: String
+  images: [String]
+  verified: Boolean @default(value: "false")
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Wishlist
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: public, operations: [read, create] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  storeId: ID
+    @index(
+      name: "bystoreIdWishlist"
+      queryField: "bystoreIdWishlist"
+      sortKeyFields: ["createdAt"]
+    )
+  store: Store @hasOne(fields: ["storeId"])
+  userId: ID
+    @index(
+      name: "byuserIdcreatedAtWishlist"
+      queryField: "byuserIdcreatedAtWishlist"
+      sortKeyFields: ["createdAt"]
+    )
+  wishlistProducts: [WishlistProduct]
+    @hasMany(indexName: "bywishlistIdcreatedAtWishlistProduct", fields: ["id"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type WishlistProduct
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: public, operations: [read, create, update, delete] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  wishlistId: ID!
+    @index(
+      name: "bywishlistIdcreatedAtWishlistProduct"
+      queryField: "bywishlistIdcreatedAtWishlistProduct"
+      sortKeyFields: ["createdAt"]
+    )
+  productId: ID!
+  product: Product @hasOne(fields: ["productId"])
+  variantId: ID
+  variant: Variant @hasOne(fields: ["variantId"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type ShoppingCart
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: public, operations: [read, create, update] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  storeId: ID
+    @index(
+      name: "bystoreIdShoppingCart"
+      queryField: "bystoreIdShoppingCart"
+      sortKeyFields: ["createdAt"]
+    )
+  store: Store @hasOne(fields: ["storeId"])
+  userId: ID
+    @index(
+      name: "byuserIdcreatedAtShoppingCart"
+      queryField: "byuserIdcreatedAtShoppingCart"
+      sortKeyFields: ["createdAt"]
+    )
+  shoppingcartProducts: [ShoppingCartProduct]
+    @hasMany(
+      indexName: "byshoppingcartIdcreatedAtShoppingCartProduct"
+      fields: ["id"]
+    )
+  couponCodeId: ID
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type ShoppingCartProduct
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: public, operations: [read, create, update, delete] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  shoppingcartId: ID!
+    @index(
+      name: "byshoppingcartIdcreatedAtShoppingCartProduct"
+      queryField: "byshoppingcartIdcreatedAtShoppingCartProduct"
+      sortKeyFields: ["createdAt"]
+    )
+  productId: ID!
+  product: Product @hasOne(fields: ["productId"])
+  variantId: ID
+  variant: Variant @hasOne(fields: ["variantId"])
+  quantity: Int!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type CouponCode
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  code: String!
+    @index(
+      name: "bycodeCouponCode"
+      queryField: "bycodeCouponCode"
+      sortKeyFields: ["createdAt"]
+    )
+  storeId: ID
+  store: Store @hasOne(fields: ["storeId"])
+  userId: ID
+    @index(
+      name: "byuserIdCouponCode"
+      queryField: "byuserIdCouponCode"
+      sortKeyFields: ["createdAt"]
+    )
+  user: User @hasOne(fields: ["userId"])
+  discount: Float!
+  expirationDate: AWSDate
+  maxUse: Int
+  totalUsed: Int
+  isActive: Boolean @default(value: "true")
+  isFeatured: Boolean @default(value: "false")
+  couponType: CouponType @default(value: "PERCENTAGE")
+  minOrderValue: Int @default(value: "0")
+  maxDiscount: Int
+  description: String
+  paymentMethod: CouponPaymentMethod! @default(value: "ALL")
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Configuration
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  storeId: ID!
+  key: String!
+    @index(name: "configurationByKey", queryField: "configurationByKey")
+  value: Float!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type ProductFaq
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  storeId: ID!
+  productId: ID!
+  title: String!
+  description: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Response {
+  success: Boolean!
+}
+
+type Mutation {
+  applyCoupon(code: String!): CouponCode
+    @function(name: "healthapplyCoupn-${env}")
+    @auth(
+      rules: [
+        { allow: public, provider: apiKey }
+        { allow: private, provider: userPools }
+      ]
+    )
+
+  bulkUploadProducts(csvKey: String!): Response
+    @function(name: "healthBulkUploadProducts-${env}")
+    @auth(rules: [{ allow: private, provider: userPools }])
+
+  bulkUpdateProducts(csvKey: String!): Response
+    @function(name: "healthBulkUpdateProducts-${env}")
+    @auth(rules: [{ allow: private, provider: userPools }])
+}

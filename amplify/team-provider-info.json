@@ -1,0 +1,45 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-healthbackend-dev-210034-authRole",
+      "UnauthRoleArn": "arn:aws:iam::069045078491:role/amplify-healthbackend-dev-210034-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::069045078491:role/amplify-healthbackend-dev-210034-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
+      "UnauthRoleName": "amplify-healthbackend-dev-210034-unauthRole",
+      "StackName": "amplify-healthbackend-dev-210034",
+      "StackId": "arn:aws:cloudformation:ap-south-1:069045078491:stack/amplify-healthbackend-dev-210034/8cb94580-9a65-11ed-b3a0-0638673029a2",
+      "AmplifyAppId": "d26dzevecuwlbj",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-healthbackend-dev-210034-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "healthbackend316f331a316f331a": {}
+      },
+      "api": {
+        "healthbackend": {}
+      },
+      "function": {
+        "healthbackend316f331a316f331aPostConfirmation": {},
+        "healtAuthToken": {},
+        "healthProductsCount": {},
+        "healthProducts": {},
+        "healthUpdateInventory": {},
+        "helathOrdes": {},
+        "helathOrderDispatch": {},
+        "healthOredrCancel": {},
+        "healthOrderStatusNotification": {},
+        "healthCreateUserFromOrder": {},
+        "healthapplyCoupn": {},
+        "healthMigrateProductImages": {},
+        "healthcreatefunctionafterorder": {},
+        "healthBulkUploadProducts": {},
+        "healthBulkUpdateProducts": {},
+        "aggregateProductRating": {}
+      },
+      "storage": {
+        "healthstaticbucket": {}
+      }
+    }
+  }
+}

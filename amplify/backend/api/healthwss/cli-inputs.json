@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/authtoken": {
+      "name": "/authtoken",
+      "lambdaFunction": "healtAuthToken",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "api": {
+      "healthbackend": [
+        "Query"
+      ]
+    },
+    "storage": {
+      "Product:@model(appsync)": [
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

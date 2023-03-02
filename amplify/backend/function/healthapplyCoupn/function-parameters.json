@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "api": {
+      "healthbackend": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    },
+    "storage": {
+      "CouponCode:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

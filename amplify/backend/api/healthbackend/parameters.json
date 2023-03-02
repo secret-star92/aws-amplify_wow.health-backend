@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "healthbackend",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authhealthbackend316f331a316f331a",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

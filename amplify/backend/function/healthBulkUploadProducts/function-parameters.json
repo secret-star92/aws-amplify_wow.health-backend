@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "auth": {
+      "healthbackend316f331a316f331a": [
+        "read"
+      ]
+    },
+    "storage": {
+      "healthstaticbucket": [
+        "read"
+      ],
+      "ProductCategory:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "ProductSubCategory:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Product:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Variant:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "ProductImage:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

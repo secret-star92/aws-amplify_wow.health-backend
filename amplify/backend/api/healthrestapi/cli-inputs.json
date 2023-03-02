@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "paths": {
+    "/products": {
+      "name": "/products",
+      "lambdaFunction": "healthProducts",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/orders": {
+      "name": "/orders",
+      "lambdaFunction": "helathOrdes",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/unicommerce/orders/dispatch": {
+      "name": "/unicommerce/orders/dispatch",
+      "lambdaFunction": "helathOrderDispatch",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/unicommerce/orders/cancel": {
+      "name": "/unicommerce/orders/cancel",
+      "lambdaFunction": "healthOredrCancel",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/order/ststusnotification": {
+      "name": "/order/ststusnotification",
+      "lambdaFunction": "healthOrderStatusNotification",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/authtoken": {
+      "name": "/authtoken",
+      "lambdaFunction": "healtAuthToken",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/updateinventory": {
+      "name": "/updateinventory",
+      "lambdaFunction": "healthUpdateInventory",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/productscount": {
+      "name": "/productscount",
+      "lambdaFunction": "healthProductsCount",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/authToken": {
+      "name": "/authToken",
+      "lambdaFunction": "healtAuthToken",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/productsCount": {
+      "name": "/productsCount",
+      "lambdaFunction": "healthProductsCount",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/updateInventory": {
+      "name": "/updateInventory",
+      "lambdaFunction": "healthUpdateInventory",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/abc": {
+      "name": "/abc",
+      "lambdaFunction": "healthOrderStatusNotification",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/order": {
+      "name": "/order",
+      "lambdaFunction": "healthOrderStatusNotification",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
