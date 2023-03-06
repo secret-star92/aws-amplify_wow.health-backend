@@ -53,13 +53,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
-    "healthCreateUserFromOrder": {
+    "healthCreateTransaction": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "Name": "string",
       "Region": "string"
     },
-    "healthMigrateProductImages": {
+    "healthCreateUserFromOrder": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "Name": "string",

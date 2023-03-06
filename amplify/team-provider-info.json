@@ -35,7 +35,8 @@
         "healthcreatefunctionafterorder": {},
         "healthBulkUploadProducts": {},
         "healthBulkUpdateProducts": {},
-        "aggregateProductRating": {}
+        "aggregateProductRating": {},
+        "healthCreateTransaction": {}
       },
       "storage": {
         "healthstaticbucket": {}
