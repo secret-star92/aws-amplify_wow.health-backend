@@ -6,7 +6,7 @@
     "resourceNameTruncated": "health316f331a",
     "userPoolName": "healthbackend316f331a_userpool_316f331a",
     "autoVerifiedAttributes": [
-      "email"
+      "phone_number"
     ],
     "mfaConfiguration": "ON",
     "mfaTypes": [
@@ -18,12 +18,7 @@
     "emailVerificationMessage": "Your verification code is {####}",
     "defaultPasswordPolicy": true,
     "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [
-      "Requires Lowercase",
-      "Requires Uppercase",
-      "Requires Numbers",
-      "Requires Symbols"
-    ],
+    "passwordPolicyCharacters": [],
     "requiredAttributes": [
       "middle_name",
       "given_name",
@@ -85,7 +80,19 @@
     "userPoolGroups": false,
     "adminQueries": false,
     "triggers": {
+      "CreateAuthChallenge": [
+        "custom"
+      ],
+      "DefineAuthChallenge": [
+        "custom"
+      ],
       "PostConfirmation": [
+        "custom"
+      ],
+      "PreSignup": [
+        "custom"
+      ],
+      "VerifyAuthChallengeResponse": [
         "custom"
       ]
     },
@@ -116,10 +123,46 @@
           "Arn",
           "Name"
         ]
+      },
+      {
+        "category": "function",
+        "resourceName": "healthbackend316f331a316f331aCreateAuthChallenge",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      },
+      {
+        "category": "function",
+        "resourceName": "healthbackend316f331a316f331aDefineAuthChallenge",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      },
+      {
+        "category": "function",
+        "resourceName": "healthbackend316f331a316f331aPreSignup",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      },
+      {
+        "category": "function",
+        "resourceName": "healthbackend316f331a316f331aVerifyAuthChallengeResponse",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
       }
     ],
     "permissions": [],
-    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"healthbackend316f331a316f331aPostConfirmation\"\n  }\n]",
+    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"CreateAuthChallenge\",\n    \"lambdaFunctionName\": \"healthbackend316f331a316f331aCreateAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"DefineAuthChallenge\",\n    \"lambdaFunctionName\": \"healthbackend316f331a316f331aDefineAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"healthbackend316f331a316f331aPostConfirmation\"\n  },\n  {\n    \"triggerType\": \"PreSignUp\",\n    \"lambdaFunctionName\": \"healthbackend316f331a316f331aPreSignup\"\n  },\n  {\n    \"triggerType\": \"VerifyAuthChallengeResponse\",\n    \"lambdaFunctionName\": \"healthbackend316f331a316f331aVerifyAuthChallengeResponse\"\n  }\n]",
     "authProviders": [],
     "parentStack": {
       "Ref": "AWS::StackId"

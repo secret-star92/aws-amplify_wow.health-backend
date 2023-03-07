@@ -1,0 +1,11 @@
+[
+  {
+    "Action": [
+      "mobiletargeting:*",
+      "sns:*"
+    ],
+    "Resource": [
+      "*"
+    ]
+  }
+]

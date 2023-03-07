@@ -128,6 +128,42 @@
           "category": "function",
           "resourceName": "healthbackend316f331a316f331aPostConfirmation",
           "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aCreateAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aDefineAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aPreSignup",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aVerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito"
         }
       ],
       "frontendAuthConfig": {
@@ -136,12 +172,7 @@
           "SMS"
         ],
         "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [
-            "REQUIRES_LOWERCASE",
-            "REQUIRES_UPPERCASE",
-            "REQUIRES_NUMBERS",
-            "REQUIRES_SYMBOLS"
-          ],
+          "passwordPolicyCharacters": [],
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
@@ -154,7 +185,7 @@
           "PHONE_NUMBER"
         ],
         "verificationMechanisms": [
-          "EMAIL"
+          "PHONE_NUMBER"
         ]
       },
       "providerPlugin": "awscloudformation",
@@ -421,6 +452,16 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "healthbackend316f331a316f331aCreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "healthbackend316f331a316f331aDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "healthbackend316f331a316f331aPostConfirmation": {
       "build": true,
       "dependsOn": [
@@ -432,6 +473,16 @@
           "resourceName": "healthbackend"
         }
       ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "healthbackend316f331a316f331aPreSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "healthbackend316f331a316f331aVerifyAuthChallengeResponse": {
+      "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -489,6 +540,376 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_aggregateProductRating_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "aggregateProductRating"
+        }
+      ]
+    },
+    "AMPLIFY_function_aggregateProductRating_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "aggregateProductRating"
+        }
+      ]
+    },
+    "AMPLIFY_function_healtAuthToken_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healtAuthToken"
+        }
+      ]
+    },
+    "AMPLIFY_function_healtAuthToken_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healtAuthToken"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthBulkUpdateProducts_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthBulkUpdateProducts"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthBulkUpdateProducts_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthBulkUpdateProducts"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthBulkUploadProducts_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthBulkUploadProducts"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthBulkUploadProducts_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthBulkUploadProducts"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthCreateTransaction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthCreateTransaction"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthCreateTransaction_rzpKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthCreateTransaction"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthCreateTransaction_rzpSecret": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthCreateTransaction"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthCreateTransaction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthCreateTransaction"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthCreateUserFromOrder_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthCreateUserFromOrder"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthCreateUserFromOrder_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthCreateUserFromOrder"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthOrderStatusNotification_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthOrderStatusNotification"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthOrderStatusNotification_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthOrderStatusNotification"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthOredrCancel_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthOredrCancel"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthOredrCancel_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthOredrCancel"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthProductsCount_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthProductsCount"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthProductsCount_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthProductsCount"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthProducts_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthProducts"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthProducts_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthProducts"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthUpdateInventory_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthUpdateInventory"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthUpdateInventory_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthUpdateInventory"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthValidateTransaction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthValidateTransaction"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthValidateTransaction_rzpKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthValidateTransaction"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthValidateTransaction_rzpSecret": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthValidateTransaction"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthValidateTransaction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthValidateTransaction"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthapplyCoupn_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthapplyCoupn"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthapplyCoupn_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthapplyCoupn"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aCreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aCreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aDefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aDefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aPostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aPreSignup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aPreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aPreSignup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aPreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aVerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthbackend316f331a316f331aVerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthbackend316f331a316f331aVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthcreatefunctionafterorder_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthcreatefunctionafterorder"
+        }
+      ]
+    },
+    "AMPLIFY_function_healthcreatefunctionafterorder_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "healthcreatefunctionafterorder"
+        }
+      ]
+    },
+    "AMPLIFY_function_helathOrderDispatch_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "helathOrderDispatch"
+        }
+      ]
+    },
+    "AMPLIFY_function_helathOrderDispatch_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "helathOrderDispatch"
+        }
+      ]
+    },
+    "AMPLIFY_function_helathOrdes_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "helathOrdes"
+        }
+      ]
+    },
+    "AMPLIFY_function_helathOrdes_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "helathOrdes"
+        }
+      ]
     }
   },
   "storage": {
