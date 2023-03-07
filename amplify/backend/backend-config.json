@@ -391,6 +391,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "healthValidateTransaction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ],
+          "category": "api",
+          "resourceName": "healthbackend"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "healthapplyCoupn": {
       "build": true,
       "dependsOn": [

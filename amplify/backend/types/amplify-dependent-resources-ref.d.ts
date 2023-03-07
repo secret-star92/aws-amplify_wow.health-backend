@@ -95,6 +95,12 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "healthValidateTransaction": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "healthapplyCoupn": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

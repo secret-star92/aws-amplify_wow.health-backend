@@ -457,6 +457,7 @@ type Product
   inventory: Int
   blockedInventory: Int
   rating: Float @default(value: "0")
+  totalRatings: Int @default(value: "0")
   totalOrders: Int @default(value: "0")
   additionalInfo: String
   thumbImages: String
@@ -719,6 +720,7 @@ type Payment
   method: PaymentMethod!
   status: PaymentStatus @default(value: "UNPAID")
   amount: Float!
+  paymentDate: AWSDateTime
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
@@ -948,6 +950,8 @@ type ZipCode
   codMaxAmount: Float @default(value: "99999")
   cod: Boolean @default(value: "false")
   prepaid: Boolean @default(value: "false")
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
 type Response @aws_api_key @aws_cognito_user_pools {
@@ -979,6 +983,15 @@ type Mutation {
 
   createTransaction(orderId: ID!): Transaction
     @function(name: "healthCreateTransaction-${env}")
+    @auth(
+      rules: [
+        { allow: public, provider: apiKey }
+        { allow: private, provider: userPools }
+      ]
+    )
+
+  validateTransaction(orderId: ID!, razorpayPaymentId: String!): Response
+    @function(name: "healthValidateTransaction-${env}")
     @auth(
       rules: [
         { allow: public, provider: apiKey }

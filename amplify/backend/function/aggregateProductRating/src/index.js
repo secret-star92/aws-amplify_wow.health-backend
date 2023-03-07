@@ -28,14 +28,15 @@ exports.handler = async event => {
   await Promise.all(event.Records.map(async ({ eventName, dynamodb }) => {
     if (eventName === "INSERT") {
       const { productId } = unmarshall(dynamodb.NewImage);
-      const rating = await aggregateReview(productId);
-      if (rating) {
+      const response = await aggregateReview(productId);
+      if (response) {
+        const { rating, total } = response;
         await db.update({
           TableName: PRODUCT_TABLE,
           Key: { id: productId },
-          UpdateExpression: "SET #rating = :rating",
-          ExpressionAttributeNames: { "#rating": "rating" },
-          ExpressionAttributeValues: { ":rating": rating }
+          UpdateExpression: "SET #rating = :rating, #totalRatings = :totalRatings",
+          ExpressionAttributeNames: { "#rating": "rating", "#totalRatings": "totalRatings" },
+          ExpressionAttributeValues: { ":rating": rating, ":totalRatings": total }
         }).promise();
       }
     }
@@ -74,7 +75,10 @@ const aggregateReview = async (productId) => {
     const { total, aggregateItems } = body.data.searchReviews;
     const [{ result: { value = 0 } }] = aggregateItems;
     if (total) {
-      return Number(parseFloat(value / total).toFixed(2));
+      return {
+        rating: Number(parseFloat(value / total).toFixed(2)),
+        total,
+      };
     }
   } catch (error) {
     console.log(`🚀 ~ aggregateReview`, error)

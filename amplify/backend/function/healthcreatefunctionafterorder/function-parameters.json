@@ -28,6 +28,10 @@
         "update",
         "delete"
       ],
+      "Product:@model(appsync)": [
+        "read",
+        "update"
+      ],
       "Order:@model(appsync)": [
         "create",
         "read",
