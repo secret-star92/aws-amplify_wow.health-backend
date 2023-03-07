@@ -8,6 +8,8 @@
 	API_HEALTHBACKEND_ORDERTABLE_NAME
 	API_HEALTHBACKEND_PAYMENTTABLE_ARN
 	API_HEALTHBACKEND_PAYMENTTABLE_NAME
+	API_HEALTHBACKEND_PRODUCTTABLE_ARN
+	API_HEALTHBACKEND_PRODUCTTABLE_NAME
 	API_HEALTHBACKEND_USERADDRESSTABLE_ARN
 	API_HEALTHBACKEND_USERADDRESSTABLE_NAME
 	API_HEALTHBACKEND_USERTABLE_ARN
@@ -19,6 +21,7 @@ Amplify Params - DO NOT EDIT */
 
 const { addOrderCode } = require('./addOrderCode');
 const { mapOrderToUser } = require('./mapOrderToUser');
+const { updateProductOrders } = require('./updateProductOrders');
 
 
 /**
@@ -29,6 +32,7 @@ exports.handler = async event => {
 	await Promise.all(event.Records.map((record) => Promise.all([
 		addOrderCode(record),
 		mapOrderToUser(record),
+		updateProductOrders(record),
 	])));
 	return Promise.resolve('Successfully processed DynamoDB record');
 };

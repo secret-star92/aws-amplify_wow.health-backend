@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "storage": {
+      "Order:@model(appsync)": [
+        "read",
+        "update"
+      ],
+      "Payment:@model(appsync)": [
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "rzpKey",
+      "environmentVariableName": "RZP_KEY"
+    },
+    {
+      "cloudFormationParameterName": "rzpSecret",
+      "environmentVariableName": "RZP_SECRET"
+    }
+  ]
+}

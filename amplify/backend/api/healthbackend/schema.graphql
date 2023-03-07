@@ -51,6 +51,11 @@ enum PaymentType {
   PREPAID
 }
 
+enum PaymentStatus {
+  UNPAID
+  PAID
+}
+
 enum Currency {
   INR
 }
@@ -307,8 +312,8 @@ type Store
   id: ID!
   name: String!
   description: String
-  isActive: Boolean
-  webUrl: String
+  isActive: Boolean @default(value: "true")
+  webUrl: String!
   appId: String
   host: String
   priority: Int
@@ -452,6 +457,7 @@ type Product
   inventory: Int
   blockedInventory: Int
   rating: Float @default(value: "0")
+  totalRatings: Int @default(value: "0")
   totalOrders: Int @default(value: "0")
   additionalInfo: String
   thumbImages: String
@@ -564,7 +570,7 @@ type Order
   ) {
   id: ID!
   code: String
-  storeId: ID
+  storeId: ID!
     @index(
       name: "bystoreIdOrder"
       queryField: "bystoreIdOrder"
@@ -584,12 +590,12 @@ type Order
   totalStoreCredit: Float
   couponCodeId: ID
   coupon: CouponCode @hasOne(fields: ["couponCodeId"])
-  totalAmount: Float
-  totalCashOnDeliveryCharges: Float
-  totalDiscount: Float
-  totalGiftCharges: Float
-  totalPrepaidAmount: Float
-  totalShippingCharges: Float
+  totalAmount: Float @default(value: "0")
+  totalCashOnDeliveryCharges: Float @default(value: "0")
+  totalDiscount: Float @default(value: "0")
+  totalGiftCharges: Float @default(value: "0")
+  totalPrepaidAmount: Float @default(value: "0")
+  totalShippingCharges: Float @default(value: "0")
   taxExempted: Boolean
   cFormProvided: Boolean
   thirdPartyShipping: Boolean @default(value: "false")
@@ -691,7 +697,7 @@ type Payment
     ]
   ) {
   id: ID!
-  storeId: ID
+  storeId: ID!
     @index(
       name: "bystoreIdPayment"
       queryField: "bystoreIdPayment"
@@ -712,7 +718,9 @@ type Payment
       sortKeyFields: ["createdAt"]
     )
   method: PaymentMethod!
+  status: PaymentStatus @default(value: "UNPAID")
   amount: Float!
+  paymentDate: AWSDateTime
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
@@ -759,21 +767,16 @@ type Review
 
 type Wishlist
   @model(subscriptions: null)
-  @auth(
-    rules: [
-      { allow: public, operations: [read, create] }
-      { allow: private, operations: [read, create, update, delete] }
-    ]
-  ) {
+  @auth(rules: [{ allow: private, operations: [read, create, update] }]) {
   id: ID!
-  storeId: ID
+  storeId: ID!
     @index(
       name: "bystoreIdWishlist"
       queryField: "bystoreIdWishlist"
       sortKeyFields: ["createdAt"]
     )
   store: Store @hasOne(fields: ["storeId"])
-  userId: ID
+  userId: ID!
     @index(
       name: "byuserIdcreatedAtWishlist"
       queryField: "byuserIdcreatedAtWishlist"
@@ -788,10 +791,7 @@ type Wishlist
 type WishlistProduct
   @model(subscriptions: null)
   @auth(
-    rules: [
-      { allow: public, operations: [read, create, update, delete] }
-      { allow: private, operations: [read, create, update, delete] }
-    ]
+    rules: [{ allow: private, operations: [read, create, update, delete] }]
   ) {
   id: ID!
   wishlistId: ID!
@@ -810,25 +810,25 @@ type WishlistProduct
 
 type ShoppingCart
   @model(subscriptions: null)
-  @auth(
-    rules: [
-      { allow: public, operations: [read, create, update] }
-      { allow: private, operations: [read, create, update, delete] }
-    ]
-  ) {
+  @auth(rules: [{ allow: private, operations: [read, create, update] }]) {
   id: ID!
-  storeId: ID
+  storeId: ID!
     @index(
       name: "bystoreIdShoppingCart"
       queryField: "bystoreIdShoppingCart"
       sortKeyFields: ["createdAt"]
     )
   store: Store @hasOne(fields: ["storeId"])
-  userId: ID
+  userId: ID!
     @index(
       name: "byuserIdcreatedAtShoppingCart"
       queryField: "byuserIdcreatedAtShoppingCart"
       sortKeyFields: ["createdAt"]
+    )
+    @index(
+      name: "byuserIdSoreIdShoppingCart"
+      queryField: "byuserIdSoreIdShoppingCart"
+      sortKeyFields: ["storeId"]
     )
   shoppingcartProducts: [ShoppingCartProduct]
     @hasMany(
@@ -843,10 +843,7 @@ type ShoppingCart
 type ShoppingCartProduct
   @model(subscriptions: null)
   @auth(
-    rules: [
-      { allow: public, operations: [read, create, update, delete] }
-      { allow: private, operations: [read, create, update, delete] }
-    ]
+    rules: [{ allow: private, operations: [read, create, update, delete] }]
   ) {
   id: ID!
   shoppingcartId: ID!
@@ -940,8 +937,30 @@ type ProductFaq
   updatedAt: AWSDateTime
 }
 
-type Response {
+type ZipCode
+  @model(subscriptions: null)
+  @searchable
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  codMaxAmount: Float @default(value: "99999")
+  cod: Boolean @default(value: "false")
+  prepaid: Boolean @default(value: "false")
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Response @aws_api_key @aws_cognito_user_pools {
   success: Boolean!
+}
+
+type Transaction @aws_api_key @aws_cognito_user_pools {
+  orderId: String!
+  amount: Float!
 }
 
 type Mutation {
@@ -961,4 +980,22 @@ type Mutation {
   bulkUpdateProducts(csvKey: String!): Response
     @function(name: "healthBulkUpdateProducts-${env}")
     @auth(rules: [{ allow: private, provider: userPools }])
+
+  createTransaction(orderId: ID!): Transaction
+    @function(name: "healthCreateTransaction-${env}")
+    @auth(
+      rules: [
+        { allow: public, provider: apiKey }
+        { allow: private, provider: userPools }
+      ]
+    )
+
+  validateTransaction(orderId: ID!, razorpayPaymentId: String!): Response
+    @function(name: "healthValidateTransaction-${env}")
+    @auth(
+      rules: [
+        { allow: public, provider: apiKey }
+        { allow: private, provider: userPools }
+      ]
+    )
 }

@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "healthbackend316f331a316f331a",
+  "functionName": "healthbackend316f331a316f331aPreSignup",
+  "resourceName": "healthbackend316f331a316f331aPreSignup",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "/snapshot/repo/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/PreSignup",
+  "triggerTemplate": "PreSignup.json.ejs",
+  "triggerEventPath": "PreSignup.event.json",
+  "roleName": "healthbackend316f331a316f331aPreSignup",
+  "skipEdit": true,
+  "enableCors": false
+}

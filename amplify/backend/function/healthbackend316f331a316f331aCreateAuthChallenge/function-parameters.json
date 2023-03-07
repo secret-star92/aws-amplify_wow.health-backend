@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "healthbackend316f331a316f331a",
+  "functionName": "healthbackend316f331a316f331aCreateAuthChallenge",
+  "resourceName": "healthbackend316f331a316f331aCreateAuthChallenge",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "/snapshot/repo/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/CreateAuthChallenge",
+  "triggerTemplate": "CreateAuthChallenge.json.ejs",
+  "triggerEventPath": "CreateAuthChallenge.event.json",
+  "roleName": "healthbackend316f331a316f331aCreateAuthChallenge",
+  "skipEdit": true,
+  "enableCors": false
+}
