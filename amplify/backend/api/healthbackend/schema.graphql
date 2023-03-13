@@ -456,6 +456,7 @@ type Product
   weightUnit: String
   inventory: Int
   blockedInventory: Int
+  continueSellingOutOfStock: Boolean
   rating: Float @default(value: "0")
   totalRatings: Int @default(value: "0")
   totalOrders: Int @default(value: "0")
@@ -557,6 +558,25 @@ type ProductImage
   height: Int
   imageKey: String!
   isThumb: Boolean
+}
+
+type ProductLog
+  @model(subscriptions: null)
+  @auth(
+    rules: [{ allow: private, operations: [read, create, update, delete] }]
+  ) {
+  id: ID!
+  productId: ID!
+    @index(
+      name: "byProductIdProductLogs"
+      queryField: "byProductIdProductLogs"
+      sortKeyFields: ["createdAt"]
+    )
+  userId: ID!
+  user: User @hasOne(fields: ["userId"])
+  comment: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
 type Order
@@ -810,7 +830,7 @@ type WishlistProduct
 
 type ShoppingCart
   @model(subscriptions: null)
-  @auth(rules: [{ allow: private, operations: [read, create, update] }]) {
+  @auth(rules: [{ allow: private, operations: [read, update] }]) {
   id: ID!
   storeId: ID!
     @index(
@@ -998,4 +1018,8 @@ type Mutation {
         { allow: private, provider: userPools }
       ]
     )
+
+  createStoreShoppingCart(storeId: ID!): ShoppingCart
+    @function(name: "healthCreateShoppingCart-${env}")
+    @auth(rules: [{ allow: private, provider: userPools }])
 }

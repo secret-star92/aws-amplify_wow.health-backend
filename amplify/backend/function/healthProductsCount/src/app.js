@@ -51,8 +51,8 @@ const SearchProducts = async (publishedStatus) => {
             query: searchProducts,
             variables: {
           filter: {
-            publishedAt: {
-              exists: publishedStatus,
+            isPublished: {
+              eq: publishedStatus,
             },
           },
         },
@@ -97,13 +97,11 @@ app.get('/productsCount', async function (req, res) {
 
         if (queryResponse.statusCode === 200) {
             res.json({
-                statusCode: queryResponse.statusCode,
-                total: JSON.stringify(queryResponse.body.data.searchProducts.total),
+                count: queryResponse.body.data.searchProducts.total,
             });
         } else {
             res.json({
                 message: queryResponse.message,
-                body: JSON.stringify(queryResponse.body),
             });
         }
     }else{

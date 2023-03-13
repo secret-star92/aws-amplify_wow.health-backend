@@ -46,7 +46,7 @@ async function getCouponsbyCode(code) {
             KeyConditionExpression: "code = :v1",
             ScanIndexForward: false,
             ExpressionAttributeValues: {
-                ":v1": code
+                ":v1": code.toUpperCase()
             },
         };
         return docClient.query(params).promise();

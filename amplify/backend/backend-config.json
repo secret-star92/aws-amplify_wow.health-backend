@@ -288,6 +288,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "healthCreateShoppingCart": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ],
+          "category": "api",
+          "resourceName": "healthbackend"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "healthCreateTransaction": {
       "build": true,
       "dependsOn": [

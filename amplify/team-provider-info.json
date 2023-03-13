@@ -24,39 +24,39 @@
       "function": {
         "healthbackend316f331a316f331aPostConfirmation": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/healthbackend316f331a316f331aPostConfirmation-54317079496e6c48456c-build.zip"
+          "s3Key": "amplify-builds/healthbackend316f331a316f331aPostConfirmation-32423370464d2f75704e-build.zip"
         },
         "healtAuthToken": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/healtAuthToken-75613574716b494e744c-build.zip"
+          "s3Key": "amplify-builds/healtAuthToken-756f5859375058346a53-build.zip"
         },
         "healthProductsCount": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/healthProductsCount-5770665a4e52594c5742-build.zip"
+          "s3Key": "amplify-builds/healthProductsCount-714e6655784838492b37-build.zip"
         },
         "healthProducts": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/healthProducts-5069733272573866696d-build.zip"
+          "s3Key": "amplify-builds/healthProducts-592f6c373967384d6c45-build.zip"
         },
         "healthUpdateInventory": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/healthUpdateInventory-78316e774e794f573444-build.zip"
+          "s3Key": "amplify-builds/healthUpdateInventory-694935324a4d66514536-build.zip"
         },
         "helathOrdes": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/helathOrdes-42744655514e39574d72-build.zip"
+          "s3Key": "amplify-builds/helathOrdes-45764c69796b612f7938-build.zip"
         },
         "helathOrderDispatch": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/helathOrderDispatch-78365a79704538475343-build.zip"
+          "s3Key": "amplify-builds/helathOrderDispatch-345754624b48366e3948-build.zip"
         },
         "healthOredrCancel": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/healthOredrCancel-5a446a504a4b67446a6d-build.zip"
+          "s3Key": "amplify-builds/healthOredrCancel-4f55382b696d7356674b-build.zip"
         },
         "healthOrderStatusNotification": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/healthOrderStatusNotification-4a48396473724a632f48-build.zip"
+          "s3Key": "amplify-builds/healthOrderStatusNotification-777a574f7177454c4237-build.zip"
         },
         "healthCreateUserFromOrder": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
@@ -64,7 +64,7 @@
         },
         "healthapplyCoupn": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
-          "s3Key": "amplify-builds/healthapplyCoupn-504762764144656f3654-build.zip"
+          "s3Key": "amplify-builds/healthapplyCoupn-2b766f44755777343954-build.zip"
         },
         "healthMigrateProductImages": {},
         "healthcreatefunctionafterorder": {
@@ -110,7 +110,8 @@
         "healthbackend316f331a316f331aVerifyAuthChallengeResponse": {
           "deploymentBucketName": "amplify-healthbackend-dev-210034-deployment",
           "s3Key": "amplify-builds/healthbackend316f331a316f331aVerifyAuthChallengeResponse-3442506e66514437646f-build.zip"
-        }
+        },
+        "healthCreateShoppingCart": {}
       },
       "storage": {
         "healthstaticbucket": {}

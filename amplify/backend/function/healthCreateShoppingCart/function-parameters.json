@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "storage": {
+      "ShoppingCart:@model(appsync)": [
+        "create",
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

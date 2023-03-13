@@ -7,6 +7,26 @@
         "Mutation",
         "Subscription"
       ]
+    },
+    "storage": {
+      "Order:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "OrderProduct:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Payment:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
     }
   }
 }

@@ -28,7 +28,7 @@ exports.handler = async (event, context) => {
         createdAt: date,
         updatedAt: date,
       },
-    }
+    };
 
     try {
       await docClient.put(params).promise();

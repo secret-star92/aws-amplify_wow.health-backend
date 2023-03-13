@@ -57,6 +57,12 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "healthCreateShoppingCart": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "healthCreateTransaction": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

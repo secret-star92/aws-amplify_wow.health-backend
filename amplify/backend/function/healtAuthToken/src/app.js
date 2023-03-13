@@ -37,7 +37,8 @@ app.use(function (req, res, next) {
 
 app.get("/authToken", async function (req, res) {
    try {
-      const { username, password } = req.query;
+      let { username, password } = req.query;
+      username= '+' + username.slice(1);
       const params = {
          AuthFlow: "ADMIN_NO_SRP_AUTH",
          UserPoolId: process.env.USER_POOL_ID,
@@ -52,13 +53,7 @@ app.get("/authToken", async function (req, res) {
          response.AuthenticationResult;
       res.json({
          status: "SUCCESS",
-         url: req.url,
-         userName: username,
          accessToken: AccessToken,
-         expiresIn: ExpiresIn,
-         tokenType: TokenType,
-         refreshToken: RefreshToken,
-         idToken: IdToken,
       });
    } catch (error) {
       const message = error.message ? error.message : "Internal server error";
